@@ -40,7 +40,11 @@ pidgeonRoutes.route('/update/:id').post(function(req, res) {
         if (!pidgeon)
             res.status(404).send("data is not found");
         else
-            pidgeon.todo_description = req.body.todo_description;
+            pidgeon.description = req.body.description;
+            pidgeon.town = req.body.town;
+            pidgeon.latitude = req.body.latitude;
+            pidgeon.longitude = req.body.longitude;
+            pidgeon.responsible_person = req.body.responsible_person;
             
 
             pidgeon.save().then(pidgeon => {
