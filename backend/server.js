@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const pidgeonRoutes = express.Router();
 const PORT = 4000;
 
-let Pidgeon = require('./pidgeon');
+let Pidgeon = require('./models/pidgeon');
 
 app.use(cors());
 app.use(bodyParser.json());
