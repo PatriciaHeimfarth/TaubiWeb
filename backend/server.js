@@ -44,7 +44,7 @@ pidgeonRoutes.route('/update/:id').post(function(req, res) {
             pidgeon.town = req.body.town;
             pidgeon.latitude = req.body.latitude;
             pidgeon.longitude = req.body.longitude;
-            pidgeon.responsible_person = req.body.responsible_person;
+            pidgeon.responsible_person_registered = req.body.responsible_person_registered;
             
 
             pidgeon.save().then(pidgeon => {

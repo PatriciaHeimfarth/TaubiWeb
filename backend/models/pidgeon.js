@@ -14,7 +14,7 @@ let Pidgeon = new Schema({
     longitude: {
         type: Number
     },
-    responsible_person: {
+    responsible_person_registered: {
         type: Boolean
     },
     
