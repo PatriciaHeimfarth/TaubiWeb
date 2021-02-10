@@ -22,6 +22,19 @@ export default class CreatePidgeon extends Component {
         }
     }
 
+    showPosition(position) {
+        alert("Latitude: " + position.coords.latitude +
+            " Longitude: " + position.coords.longitude);
+    }
+     
+    getLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(this.showPosition);
+        } else {
+            alert("Geolocation is not supported by your browser.");
+        }
+    }
+
     onChangeDescription(e) {
         this.setState({
             description: e.target.value
@@ -94,11 +107,15 @@ export default class CreatePidgeon extends Component {
                             onChange={this.onChangeLongitude}
                         />
                     </div>
-             
+
                     <div className="form-group">
                         <input type="submit" value="Taube hinzufügen" className="btn btn-primary" />
                     </div>
+
+
                 </form>
+                <button className="btn btn-dark" onClick={this.getLocation}>Aktueller Standort</button>
+
             </div>
         )
     }
