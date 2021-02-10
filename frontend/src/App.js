@@ -18,7 +18,7 @@ class App extends Component {
             <div className="collpase navbar-collapse">
               <ul className="navbar-nav mr-auto">
                 <li className="navbar-item">
-                  <Link to="/" className="nav-link">Tauben</Link>
+                  <Link to="/list" className="nav-link">Tauben</Link>
                 </li>
                 <li className="navbar-item">
                   <Link to="/create" className="nav-link">Taube hinzufügen</Link>
@@ -27,7 +27,7 @@ class App extends Component {
             </div>
           </nav>
           <br/>
-          <Route path="/" component={PidgeonList} />
+          <Route path="/list" component={PidgeonList} />
           <Route path="/create" component={CreatePidgeon} />
         </div>
       </Router>
