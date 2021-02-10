@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
  
 import CreatePidgeon from "./components/create-pidgeon";
+import PidgeonList from "./components/pidgeon-list";
 
 class App extends Component {
   render() {
@@ -26,6 +27,7 @@ class App extends Component {
             </div>
           </nav>
           <br/>
+          <Route path="/" component={PidgeonList} />
           <Route path="/create" component={CreatePidgeon} />
         </div>
       </Router>
