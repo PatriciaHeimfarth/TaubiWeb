@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 export default class CreatePidgeon extends Component {
+
+
 
     constructor(props) {
         super(props);
@@ -11,6 +14,7 @@ export default class CreatePidgeon extends Component {
         this.onChangeLongitude = this.onChangeLongitude.bind(this);
         this.onChangeResponsiblePersonRegistered = this.onChangeResponsiblePersonRegistered.bind(this);
         this.onChangeEmail = this.onChangeEmail.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
             description: '',
@@ -73,7 +77,18 @@ export default class CreatePidgeon extends Component {
 
     onSubmit(e) {
         e.preventDefault();
+        console.log(`Todo Description: ${this.state.description}`);
+        const submittedPidgeon = {
+            description: this.state.description,
+            town: this.state.town,
+            latitude: this.state.latitude,
+            longitude: this.state.longitude,
+            responsiblePersonRegistered: this.state.responsiblePersonRegistered,
+            email: this.state.email
+        };
 
+        axios.post('http://localhost:4000/pidgeons/add', submittedPidgeon)
+            .then(res => console.log(res.data));
 
         this.setState({
             description: '',
@@ -103,8 +118,8 @@ export default class CreatePidgeon extends Component {
                         <input
                             type="text"
                             className="form-control"
-                            value={this.state.description}
-                            onChange={this.onChangeDescription}
+                            value={this.state.town}
+                            onChange={this.onChangeTown}
                         />
                     </div>
                     <div className="form-group">
@@ -121,8 +136,8 @@ export default class CreatePidgeon extends Component {
                         <input
                             type="number"
                             className="form-control"
-                            value={this.state.email}
-                            onChange={this.onChangeEmail}
+                            value={this.state.longitude}
+                            onChange={this.onChangeLongitude}
                         />
                     </div>
                     <div className="form-group">
