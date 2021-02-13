@@ -58,6 +58,18 @@ pidgeonRoutes.route('/update/:id').post(function (req, res) {
     });
 });
 
+pidgeonRoutes.route('/verify/:token').get(function (req, res) {
+    var token = req.params.token;
+    var data = jwt.decode(token, process.env.SECRET);
+    if(new Date(data.expiry) > new Date()){
+        console.log(new Date(data.expiry));
+        console.log('token okay');      
+    }
+    else{
+        console.log('token expired');
+    }
+});
+
 pidgeonRoutes.route('/add').post(function (req, res) {
     let pidgeon = new Pidgeon(req.body);
     let nodemailer = require('nodemailer');
@@ -77,7 +89,7 @@ pidgeonRoutes.route('/add').post(function (req, res) {
         from: process.env.EMAIL,
         to: process.env.EMAIL,
         subject: 'Taubi - Eintrag bestätigen',
-        text: 'Besuche zur Bestätigung http://localhost:4000/verify/' + token
+        text: 'Besuche zur Bestätigung http://localhost:4000/pidgeons/verify/' + token
     };
   
     
