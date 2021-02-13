@@ -10,14 +10,15 @@ export default class CreatePidgeon extends Component {
         this.onChangeLatitude = this.onChangeLatitude.bind(this);
         this.onChangeLongitude = this.onChangeLongitude.bind(this);
         this.onChangeResponsiblePersonRegistered = this.onChangeResponsiblePersonRegistered.bind(this);
-
+        this.onChangeEmail = this.onChangeEmail.bind(this);
 
         this.state = {
             description: '',
             town: '',
             latitude: '',
             longitude: '',
-            responsiblePersonRegistered: false
+            responsiblePersonRegistered: false,
+            email: ''
 
         }
     }
@@ -26,7 +27,7 @@ export default class CreatePidgeon extends Component {
         alert("Latitude: " + position.coords.latitude +
             " Longitude: " + position.coords.longitude);
     }
-     
+
     getLocation = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(this.showPosition);
@@ -60,6 +61,13 @@ export default class CreatePidgeon extends Component {
             responsiblePersonRegistered: e.target.value
         });
     }
+    onChangeEmail(e) {
+        this.setState(
+            {
+                email: e.target.value
+            }
+        )
+    }
 
 
 
@@ -72,7 +80,8 @@ export default class CreatePidgeon extends Component {
             town: '',
             latitude: '',
             longitude: '',
-            responsiblePersonRegistered: false
+            responsiblePersonRegistered: false,
+            email: ''
         })
     }
 
@@ -84,6 +93,15 @@ export default class CreatePidgeon extends Component {
                     <div className="form-group">
                         <label>Beschreibung: </label>
                         <textarea
+                            className="form-control"
+                            value={this.state.description}
+                            onChange={this.onChangeDescription}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Stadt: </label>
+                        <input
+                            type="text"
                             className="form-control"
                             value={this.state.description}
                             onChange={this.onChangeDescription}
@@ -103,8 +121,17 @@ export default class CreatePidgeon extends Component {
                         <input
                             type="number"
                             className="form-control"
-                            value={this.state.longitude}
-                            onChange={this.onChangeLongitude}
+                            value={this.state.email}
+                            onChange={this.onChangeEmail}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Kontakt E-Mail: </label>
+                        <input
+                            type="email"
+                            className="form-control"
+                            value={this.state.email}
+                            onChange={this.onChangeEmail}
                         />
                     </div>
 
