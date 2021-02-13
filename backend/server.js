@@ -5,7 +5,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const pidgeonRoutes = express.Router();
 const PORT = 4000;
-
+const jwt = require('jsonwebtoken');
 let Pidgeon = require('./models/pidgeon');
 
 app.use(cors());
@@ -61,6 +61,10 @@ pidgeonRoutes.route('/update/:id').post(function (req, res) {
 pidgeonRoutes.route('/add').post(function (req, res) {
     let pidgeon = new Pidgeon(req.body);
     let nodemailer = require('nodemailer');
+    let info = {};
+    info.user = process.env.EMAIL;
+    info.expiry = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+    let token = jwt.sign(info, process.env.SECRET);
 
     let transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -72,9 +76,11 @@ pidgeonRoutes.route('/add').post(function (req, res) {
     let mailOptions = {
         from: process.env.EMAIL,
         to: process.env.EMAIL,
-        subject: 'Sending Email using Node.js',
-        text: 'That was easy!'
+        subject: 'Taubi - Eintrag bestätigen',
+        text: 'Besuche zur Bestätigung http://localhost:4000/verify/' + token
     };
+  
+    
 
     pidgeon.save()
         .then(pidgeon => {
