@@ -27,14 +27,19 @@ export default class CreatePidgeon extends Component {
         }
     }
 
-    showPosition(position) {
+    showPosition = (position) => {
         alert("Latitude: " + position.coords.latitude +
             " Longitude: " + position.coords.longitude);
+            this.setState({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+            });
     }
 
     getLocation = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(this.showPosition);
+           
         } else {
             alert("Geolocation is not supported by your browser.");
         }
