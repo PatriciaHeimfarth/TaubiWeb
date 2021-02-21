@@ -6,8 +6,7 @@ const Pidgeon = props => (
     <tr>
         <td>{props.pidgeon.description}</td>
         <td>{props.func(props.pidgeon.latitude,
-            props.pidgeon.longitude, props.pidgeon.latitude,
-            props.pidgeon.longitude)}</td>
+            props.pidgeon.longitude )}</td>
         <td>
             <Link to={"/edit/" + props.pidgeon._id}>Edit</Link>
         </td>
@@ -19,6 +18,7 @@ export default class PidgeonList extends Component {
     constructor(props) {
         super(props);
         this.state = { pidgeons: [] };
+        {this.getLocation()}
 
     }
 
@@ -31,10 +31,29 @@ export default class PidgeonList extends Component {
                 console.log(error);
             })
     }
-    distance(lat1, lon1, lat2, lon2) {
-        let radlat1 = Math.PI * lat1 / 180;
-        let radlat2 = Math.PI * lat2 / 180;
-        let theta = lon1 - lon2;
+    showPosition = (position) => {
+        
+            this.setState({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+            });
+    }
+ 
+    getLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition( this.showPosition);
+           
+        } else {
+            alert("Geolocation is not supported by your browser.");
+        }
+    }
+
+
+      distance = (lat, lon) =>{
+        
+        let radlat1 = Math.PI * lat / 180;
+        let radlat2 = Math.PI * this.state.latitude / 180;
+        let theta = lon - this.state.longitude;
         let radtheta = Math.PI * theta / 180
         let dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
         dist = Math.acos(dist);
@@ -44,9 +63,9 @@ export default class PidgeonList extends Component {
         return dist;
     }
 
-    pidgeonList(distance) {
+    pidgeonList = (distance) => {
         return this.state.pidgeons.map(function (currentPidgeon, i) {
-            return <Pidgeon pidgeon={currentPidgeon} key={i} func={distance} />;
+            return <Pidgeon pidgeon={currentPidgeon} key={i} func={ distance } />;
         })
     }
 
