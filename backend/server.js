@@ -6,11 +6,19 @@ const mongoose = require('mongoose');
 const pidgeonRoutes = express.Router();
 const PORT = 4000;
 const jwt = require('jsonwebtoken');
-let Pidgeon = require('./models/pidgeon');
+const passport = require('passport');
+const Pidgeon = require('./models/pidgeon');
+const UserModel = require('./models/user');
+
+const routes = require('./routes/routes');
+const secureRoute = require('./routes/secure-routes');
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use( bodyParser.urlencoded({ extended : false }) );
+
 require('dotenv').config();
+require('./auth/auth');
 
 mongoose.connect('mongodb://127.0.0.1:27017/pidgeons', { useNewUrlParser: true });
 const connection = mongoose.connection;
@@ -111,6 +119,15 @@ pidgeonRoutes.route('/add').post(function (req, res) {
 });
 
 app.use('/pidgeons', pidgeonRoutes);
+app.use('/', routes);
+app.use('/user', passport.authenticate('jwt', { session : false }), secureRoute );
+
+ 
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.json({ error : err });
+});
+
 
 app.listen(PORT, function () {
     console.log("Server is running on Port: " + PORT);
