@@ -5,8 +5,7 @@ import axios from 'axios';
 const Pidgeon = props => (
     <tr>
         <td>{props.pidgeon.description}</td>
-        <td>{props.func(props.pidgeon.latitude,
-            props.pidgeon.longitude )}</td>
+        <td>{props.pidgeon.distanceToUser}</td>
         <td>
             <Link to={"/edit/" + props.pidgeon._id}>Edit</Link>
         </td>
@@ -25,7 +24,10 @@ export default class PidgeonList extends Component {
     componentDidMount() {
         axios.get('http://localhost:4000/pidgeons/')
             .then(response => {
-                this.setState({ pidgeons: response.data });
+                console.log(response.data)
+               
+                var test =  response.data.map( p => {p.distanceToUser = 0.1; return p})
+                this.setState({ pidgeons: test });
             })
             .catch(function (error) {
                 console.log(error);
