@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+ 
 import axios from 'axios';
 
 const Pidgeon = props => (
@@ -7,7 +7,8 @@ const Pidgeon = props => (
         <td>{props.pidgeon.description}</td>
         <td>{props.pidgeon.distanceToUser}</td>
         <td>
-            <Link to={"/edit/" + props.pidgeon._id}>Edit</Link>
+        <button onClick={() => props.func(props.pidgeon._id)}>Übernehme ich!</button>
+ 
         </td>
     </tr>
 )
@@ -17,7 +18,7 @@ export default class PidgeonList extends Component {
     constructor(props) {
         super(props);
         this.state = { pidgeons: [] };
-        {this.getLocation()}
+        { this.getLocation() }
 
     }
 
@@ -25,9 +26,9 @@ export default class PidgeonList extends Component {
         axios.get('http://localhost:4000/pidgeons/')
             .then(response => {
                 console.log(response.data)
-               
-                var pidWithDistance =  response.data.map( p => {p.distanceToUser = this.distance(p.latitude, p.longitude); return p})
-                pidWithDistance = pidWithDistance.sort((a,b) => a.distanceToUser - b.distanceToUser);
+
+                var pidWithDistance = response.data.map(p => { p.distanceToUser = this.distance(p.latitude, p.longitude); return p })
+                pidWithDistance = pidWithDistance.sort((a, b) => a.distanceToUser - b.distanceToUser);
                 this.setState({ pidgeons: pidWithDistance });
             })
             .catch(function (error) {
@@ -35,25 +36,35 @@ export default class PidgeonList extends Component {
             })
     }
     showPosition = (position) => {
-        
-            this.setState({
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-            });
+
+        this.setState({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        });
     }
- 
+
+    takeCareForPidgeon (pid_id){
+        console.log(pid_id);
+        axios.post('http://localhost:4000/pidgeons/takecare', pid_id)
+        .then(response => {
+            console.log(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
     getLocation = () => {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition( this.showPosition);
-           
+            navigator.geolocation.getCurrentPosition(this.showPosition);
+
         } else {
             alert("Geolocation is not supported by your browser.");
         }
     }
 
 
-      distance = (lat, lon) =>{
-        
+    distance = (lat, lon) => {
+
         let radlat1 = Math.PI * lat / 180;
         let radlat2 = Math.PI * this.state.latitude / 180;
         let theta = lon - this.state.longitude;
@@ -66,13 +77,13 @@ export default class PidgeonList extends Component {
         return dist;
     }
 
-    pidgeonList = (distance) => {
+    pidgeonList = (takeCareForPidgeon) => {
         return this.state.pidgeons.map(function (currentPidgeon, i) {
-            return <Pidgeon pidgeon={currentPidgeon} key={i} func={ distance } />;
+            return <Pidgeon pidgeon={currentPidgeon} key={i} func={takeCareForPidgeon} />;
         })
     }
 
- 
+
     render() {
         return (
             <div>
@@ -85,7 +96,7 @@ export default class PidgeonList extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.pidgeonList(this.distance)}
+                        {this.pidgeonList(this.takeCareForPidgeon)}
                     </tbody>
                 </table>
             </div>
