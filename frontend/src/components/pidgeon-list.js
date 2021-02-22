@@ -27,6 +27,7 @@ export default class PidgeonList extends Component {
                 console.log(response.data)
                
                 var pidWithDistance =  response.data.map( p => {p.distanceToUser = this.distance(p.latitude, p.longitude); return p})
+                pidWithDistance = pidWithDistance.sort((a,b) => a.distanceToUser - b.distanceToUser);
                 this.setState({ pidgeons: pidWithDistance });
             })
             .catch(function (error) {
