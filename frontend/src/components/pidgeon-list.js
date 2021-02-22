@@ -26,8 +26,8 @@ export default class PidgeonList extends Component {
             .then(response => {
                 console.log(response.data)
                
-                var test =  response.data.map( p => {p.distanceToUser = 0.1; return p})
-                this.setState({ pidgeons: test });
+                var pidWithDistance =  response.data.map( p => {p.distanceToUser = 0.1; return p})
+                this.setState({ pidgeons: pidWithDistance });
             })
             .catch(function (error) {
                 console.log(error);
