@@ -15,7 +15,7 @@ let Pidgeon = new Schema({
         type: Number
     },
     responsible_person_registered: {
-        type: Boolean
+        type: String
     },
     
 });

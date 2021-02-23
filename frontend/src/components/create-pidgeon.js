@@ -67,7 +67,7 @@ export default class CreatePidgeon extends Component {
     }
     onChangeResponsiblePersonRegistered(e) {
         this.setState({
-            responsiblePersonRegistered: e.target.value
+            responsiblePersonRegistered: ''
         });
     }
     onChangeEmail(e) {
