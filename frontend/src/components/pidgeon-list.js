@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
- 
+
 import axios from 'axios';
 
 const Pidgeon = props => (
@@ -7,8 +7,9 @@ const Pidgeon = props => (
         <td>{props.pidgeon.description}</td>
         <td>{props.pidgeon.distanceToUser}</td>
         <td>
-        <button onClick={() => props.func(props.pidgeon._id)}>Übernehme ich!</button>
- 
+            <form onSubmit={() => props.func(props.pidgeon._id)}>
+                <input type="submit" className="btn btn-primary" value="Übernehme ich!" onClick={() => props.func(props.pidgeon._id)}/>
+            </form>
         </td>
     </tr>
 )
@@ -43,15 +44,15 @@ export default class PidgeonList extends Component {
         });
     }
 
-    takeCareForPidgeon (pid_id){
+    takeCareForPidgeon(pid_id) {
         console.log(pid_id);
-        axios.post('http://localhost:4000/pidgeons/takecare', pid_id)
-        .then(response => {
-            console.log(response.data);
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
+        axios.post('http://localhost:4000/pidgeons/takecare/60335ee6c4721a10b846d25e' )
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
     }
     getLocation = () => {
         if (navigator.geolocation) {
