@@ -46,7 +46,7 @@ export default class PidgeonList extends Component {
 
     takeCareForPidgeon(pid_id) {
         console.log(pid_id);
-        axios.post('http://localhost:4000/pidgeons/takecare/60335ee6c4721a10b846d25e' )
+        axios.post('http://localhost:4000/pidgeons/takecare/' + pid_id )
             .then(response => {
                 console.log(response.data);
             })

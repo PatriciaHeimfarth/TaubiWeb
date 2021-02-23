@@ -76,7 +76,7 @@ pidgeonRoutes.route('/takecare/:id').post(function (req, res) {
             res.status(404).send("data is not found");
         }
          
-        pidgeon.update({responsible_person_registered: "hi2"} ).then(pidgeon => {
+        pidgeon.update({responsible_person_registered: "hi3"} ).then(pidgeon => {
             res.json('Pidgeon updated!');
         })
             .catch(err => {
