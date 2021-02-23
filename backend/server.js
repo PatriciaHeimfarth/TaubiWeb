@@ -138,7 +138,7 @@ pidgeonRoutes.route('/add').post(function (req, res) {
         });
 });
 
-app.use('/pidgeons', pidgeonRoutes);
+app.use('/pidgeons', passport.authenticate('jwt', { session: false }), pidgeonRoutes);
 app.use('/', routes);
 app.use('/user', passport.authenticate('jwt', { session: false }), secureRoute);
 

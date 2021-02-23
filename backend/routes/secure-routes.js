@@ -4,6 +4,7 @@ const router = express.Router();
 
 
 router.get('/profile', (req, res, next) => {
+  console.log(req)
   res.json({
     message : 'secure route',
     user : req.user,
