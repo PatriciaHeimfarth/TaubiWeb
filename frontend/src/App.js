@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
- 
+
 import CreatePidgeon from "./components/create-pidgeon";
 import PidgeonList from "./components/pidgeon-list";
+import Login from "./components/login";
 
 class App extends Component {
   render() {
@@ -13,7 +14,7 @@ class App extends Component {
       <Router>
         <div className="container">
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
-           
+
             <Link to="/" className="navbar-brand">TaubiWeb</Link>
             <div className="collapse navbar-collapse">
               <ul className="navbar-nav mr-auto">
@@ -26,9 +27,13 @@ class App extends Component {
               </ul>
             </div>
           </nav>
-          <br/>
-          <Route path="/list" component={PidgeonList} />
-          <Route path="/create" component={CreatePidgeon} />
+          <br />
+
+          <Switch>
+            <Route path="/list" component={PidgeonList} />
+            <Route path="/create" component={CreatePidgeon} />
+            <Route path="/" component={Login} />
+          </Switch>
         </div>
       </Router>
     );
