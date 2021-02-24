@@ -31,9 +31,11 @@ export default class Login extends Component {
             email: this.state.email,
             password: this.state.password,
         };
-
+        
         axios.post('http://localhost:4000/login', submittedUser)
-            .then(res => console.log(res.data));
+            .then(res => {
+                alert(res.data.token);
+            });
 
         this.setState({
             password: '',
