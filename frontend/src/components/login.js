@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 export default class Login extends Component {
 
@@ -13,7 +14,7 @@ export default class Login extends Component {
             email: ''
         }
     }
- 
+
     onChangeEmail(e) {
         this.setState({
             email: e.target.value
@@ -35,7 +36,7 @@ export default class Login extends Component {
 
         axios.post('http://localhost:4000/login', submittedUser)
             .then(res => {
-                
+
                 this.storeInLocalStorage(res.data.token);
             });
 
@@ -46,7 +47,7 @@ export default class Login extends Component {
     }
 
     storeInLocalStorage(stringToStore) {
-        var object = { value: stringToStore, timestamp: new Date().getTime() + 12*60*60*1000 }
+        var object = { value: stringToStore, timestamp: new Date().getTime() + 12 * 60 * 60 * 1000 }
         localStorage.setItem("token", JSON.stringify(object));
     }
 
@@ -63,7 +64,7 @@ export default class Login extends Component {
             else {
                 var token = '';
             }
-            alert(token);
+            //alert(token);
             return token;
         }
         else {
@@ -75,37 +76,44 @@ export default class Login extends Component {
 
     render() {
         var token = this.getFromLocalStorage();
-        
+
+
+
+
+
         return (
             <div>
-                <form onSubmit={this.onSubmit}>
-                    <div className="form-group">
-                        <label>E-Mail</label>
-                        <input
-                            type="email"
-                            className="form-control"
-                            value={this.state.email}
-                            onChange={this.onChangeEmail}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Passwort</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            value={this.state.password}
-                            onChange={this.onChangePassword}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input
-                            type="submit"
-                            value="Login"
-                            className="btn btn-primary" />
-                    </div>
+
+                {token !== ''
+                    ? <Redirect to={'/list/'} /> :
+                    <form onSubmit={this.onSubmit}>
+                        <div className="form-group">
+                            <label>E-Mail</label>
+                            <input
+                                type="email"
+                                className="form-control"
+                                value={this.state.email}
+                                onChange={this.onChangeEmail}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Passwort</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                value={this.state.password}
+                                onChange={this.onChangePassword}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <input
+                                type="submit"
+                                value="Login"
+                                className="btn btn-primary" />
+                        </div>
 
 
-                </form>
+                    </form>}
             </div>
         )
     }
