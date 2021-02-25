@@ -13,6 +13,7 @@ export default class Login extends Component {
             email: ''
         }
     }
+ 
     onChangeEmail(e) {
         this.setState({
             email: e.target.value
@@ -34,7 +35,7 @@ export default class Login extends Component {
 
         axios.post('http://localhost:4000/login', submittedUser)
             .then(res => {
-                alert(res.data.token);
+                
                 this.storeInLocalStorage(res.data.token);
             });
 
@@ -45,27 +46,36 @@ export default class Login extends Component {
     }
 
     storeInLocalStorage(stringToStore) {
-        var object = { value: stringToStore, timestamp: new Date().getTime() }
+        var object = { value: stringToStore, timestamp: new Date().getTime() + 12*60*60*1000 }
         localStorage.setItem("token", JSON.stringify(object));
     }
 
-    getFromLocalStorage( ) {
-        var object = JSON.parse(localStorage.getItem("token")),
-            dateString = object.timestamp,
-            now = new Date().getTime().toString();
+    getFromLocalStorage() {
+        var object = JSON.parse(window.localStorage.getItem("token"));
 
-        if (Date.parse(dateString) < now) {
-            var token = object.value;
+        if (object !== null) {
+            var dateString = object.timestamp;
+            var now = new Date().getTime();
+
+            if (dateString > now) {
+                var token = object.value;
+            }
+            else {
+                var token = '';
+            }
+            alert(token);
+            return token;
         }
-        else{
-            var token = '';
+        else {
+            return '';
         }
 
-        return token;
 
-     }
+    }
 
     render() {
+        var token = this.getFromLocalStorage();
+        
         return (
             <div>
                 <form onSubmit={this.onSubmit}>
