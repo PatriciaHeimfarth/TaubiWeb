@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 const Pidgeon = props => (
@@ -8,7 +8,7 @@ const Pidgeon = props => (
         <td>{props.pidgeon.distanceToUser}</td>
         <td>
             <form onSubmit={() => props.func(props.pidgeon._id)}>
-                <input type="submit" className="btn btn-primary" value="Übernehme ich!" onClick={() => props.func(props.pidgeon._id)}/>
+                <input type="submit" className="btn btn-primary" value="Übernehme ich!" onClick={() => props.func(props.pidgeon._id)} />
             </form>
         </td>
     </tr>
@@ -46,7 +46,7 @@ export default class PidgeonList extends Component {
 
     takeCareForPidgeon(pid_id) {
         console.log(pid_id);
-        axios.post('http://localhost:4000/pidgeons/takecare/' + pid_id )
+        axios.post('http://localhost:4000/pidgeons/takecare/' + pid_id)
             .then(response => {
                 console.log(response.data);
             })
@@ -83,23 +83,48 @@ export default class PidgeonList extends Component {
             return <Pidgeon pidgeon={currentPidgeon} key={i} func={takeCareForPidgeon} />;
         })
     }
+    getFromLocalStorage() {
+        var object = JSON.parse(window.localStorage.getItem("token"));
 
+        if (object !== null) {
+            var dateString = object.timestamp;
+            var now = new Date().getTime();
+
+            if (dateString > now) {
+                var token = object.value;
+            }
+            else {
+                var token = '';
+            }
+
+            return token;
+        }
+        else {
+            return '';
+        }
+    }
 
     render() {
+        var token = this.getFromLocalStorage();
         return (
             <div>
-                <h3>Liste</h3>
-                <table className="table table-striped" style={{ marginTop: 20 }} >
-                    <thead>
-                        <tr>
-                            <th>Beschreibung</th>
-                            <th>Entfernung</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.pidgeonList(this.takeCareForPidgeon)}
-                    </tbody>
-                </table>
+                {token === ''
+                    ? <Redirect to={'/login/'} /> :
+                    <div>
+                        <h3>Liste</h3>
+                        <table className="table table-striped" style={{ marginTop: 20 }} >
+                            <thead>
+                                <tr>
+                                    <th>Beschreibung</th>
+                                    <th>Entfernung</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.pidgeonList(this.takeCareForPidgeon)}
+                            </tbody>
+                        </table>
+                    </div>
+                }
             </div>
         )
     }

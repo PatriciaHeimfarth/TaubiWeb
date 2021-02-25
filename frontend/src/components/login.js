@@ -76,14 +76,8 @@ export default class Login extends Component {
 
     render() {
         var token = this.getFromLocalStorage();
-
-
-
-
-
         return (
             <div>
-
                 {token !== ''
                     ? <Redirect to={'/list/'} /> :
                     <form onSubmit={this.onSubmit}>
