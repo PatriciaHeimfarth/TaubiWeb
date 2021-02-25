@@ -37,7 +37,8 @@ export default class Login extends Component {
         axios.post('http://localhost:4000/login', submittedUser)
             .then(res => {
 
-                this.storeInLocalStorage(res.data.token);
+                this.storeInLocalStorage("token", res.data.token);
+                this.storeInLocalStorage("email", submittedUser.email);
                 window.location.reload();
             });
 
@@ -47,9 +48,9 @@ export default class Login extends Component {
         })
     }
 
-    storeInLocalStorage(stringToStore) {
+    storeInLocalStorage(key, stringToStore) {
         var object = { value: stringToStore, timestamp: new Date().getTime() + 12 * 60 * 60 * 1000 }
-        localStorage.setItem("token", JSON.stringify(object));
+        localStorage.setItem(key, JSON.stringify(object));
     }
 
     getFromLocalStorage() {
