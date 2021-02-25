@@ -31,10 +31,11 @@ export default class Login extends Component {
             email: this.state.email,
             password: this.state.password,
         };
-        
+
         axios.post('http://localhost:4000/login', submittedUser)
             .then(res => {
                 alert(res.data.token);
+                this.storeInLocalStorage(res.data.token);
             });
 
         this.setState({
@@ -42,6 +43,27 @@ export default class Login extends Component {
             email: ''
         })
     }
+
+    storeInLocalStorage(stringToStore) {
+        var object = { value: stringToStore, timestamp: new Date().getTime() }
+        localStorage.setItem("token", JSON.stringify(object));
+    }
+
+    getFromLocalStorage( ) {
+        var object = JSON.parse(localStorage.getItem("token")),
+            dateString = object.timestamp,
+            now = new Date().getTime().toString();
+
+        if (Date.parse(dateString) < now) {
+            var token = object.value;
+        }
+        else{
+            var token = '';
+        }
+
+        return token;
+
+     }
 
     render() {
         return (
