@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
+import { Redirect } from 'react-router-dom';
 export default class CreatePidgeon extends Component {
 
 
@@ -27,19 +27,42 @@ export default class CreatePidgeon extends Component {
         }
     }
 
+    getFromLocalStorage() {
+        var object = JSON.parse(window.localStorage.getItem("token"));
+
+        if (object !== null) {
+            var dateString = object.timestamp;
+            var now = new Date().getTime();
+
+            if (dateString > now) {
+                var token = object.value;
+            }
+            else {
+                var token = '';
+            }
+
+            return token;
+        }
+        else {
+            return '';
+        }
+
+
+    }
+
     showPosition = (position) => {
         alert("Latitude: " + position.coords.latitude +
             " Longitude: " + position.coords.longitude);
-            this.setState({
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-            });
+        this.setState({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        });
     }
 
     getLocation = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(this.showPosition);
-           
+
         } else {
             alert("Geolocation is not supported by your browser.");
         }
@@ -106,63 +129,66 @@ export default class CreatePidgeon extends Component {
     }
 
     render() {
+        var token = this.getFromLocalStorage();
         return (
-            <div style={{ marginTop: 10 }}>
-                <h3>Neue Taube hinzufügen</h3>
-                <form onSubmit={this.onSubmit}>
-                    <div className="form-group">
-                        <label>Beschreibung: </label>
-                        <textarea
-                            className="form-control"
-                            value={this.state.description}
-                            onChange={this.onChangeDescription}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Stadt: </label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            value={this.state.town}
-                            onChange={this.onChangeTown}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Latitude: </label>
-                        <input
-                            type="number"
-                            className="form-control"
-                            value={this.state.latitude}
-                            onChange={this.onChangeLatitude}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Longitude: </label>
-                        <input
-                            type="number"
-                            className="form-control"
-                            value={this.state.longitude}
-                            onChange={this.onChangeLongitude}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Kontakt E-Mail: </label>
-                        <input
-                            type="email"
-                            className="form-control"
-                            value={this.state.email}
-                            onChange={this.onChangeEmail}
-                        />
-                    </div>
+            <div>
+                {token === ''
+                    ? <Redirect to={'/login/'} /> :
+                    <div style={{ marginTop: 10 }}>
+                        <h3>Neue Taube hinzufügen</h3>
+                        <form onSubmit={this.onSubmit}>
+                            <div className="form-group">
+                                <label>Beschreibung: </label>
+                                <textarea
+                                    className="form-control"
+                                    value={this.state.description}
+                                    onChange={this.onChangeDescription}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Stadt: </label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    value={this.state.town}
+                                    onChange={this.onChangeTown}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Latitude: </label>
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    value={this.state.latitude}
+                                    onChange={this.onChangeLatitude}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Longitude: </label>
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    value={this.state.longitude}
+                                    onChange={this.onChangeLongitude}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Kontakt E-Mail: </label>
+                                <input
+                                    type="email"
+                                    className="form-control"
+                                    value={this.state.email}
+                                    onChange={this.onChangeEmail}
+                                />
+                            </div>
 
-                    <div className="form-group">
-                        <input type="submit" value="Taube hinzufügen" className="btn btn-primary" />
+                            <div className="form-group">
+                                <input type="submit" value="Taube hinzufügen" className="btn btn-primary" />
+                            </div>
+                        </form>
+                        <button className="btn btn-dark" onClick={this.getLocation}>Aktueller Standort</button>
                     </div>
-
-
-                </form>
-                <button className="btn btn-dark" onClick={this.getLocation}>Aktueller Standort</button>
-
+                }
             </div>
         )
     }
