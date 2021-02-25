@@ -38,6 +38,7 @@ export default class Login extends Component {
             .then(res => {
 
                 this.storeInLocalStorage(res.data.token);
+                window.location.reload();
             });
 
         this.setState({
@@ -64,7 +65,6 @@ export default class Login extends Component {
             else {
                 var token = '';
             }
-            //alert(token);
             return token;
         }
         else {
