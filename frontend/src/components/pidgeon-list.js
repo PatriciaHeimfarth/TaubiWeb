@@ -24,7 +24,9 @@ export default class PidgeonList extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:4000/pidgeons/')
+        var token = this.getFromLocalStorage();
+        
+        axios.get('http://localhost:4000/pidgeons?secret_token=' + token)
             .then(response => {
                 console.log(response.data)
 
