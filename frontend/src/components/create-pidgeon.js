@@ -114,8 +114,8 @@ export default class CreatePidgeon extends Component {
             responsiblePersonRegistered: this.state.responsiblePersonRegistered,
             email: this.state.email
         };
-
-        axios.post('http://localhost:4000/pidgeons/add', submittedPidgeon)
+        var token = this.getFromLocalStorage("token");
+        axios.post('http://localhost:4000/pidgeons/add?secret_token=' + token , submittedPidgeon)
             .then(res => console.log(res.data));
 
         this.setState({
