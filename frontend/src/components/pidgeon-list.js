@@ -8,7 +8,10 @@ const Pidgeon = props => (
         <td>{props.pidgeon.distanceToUser}</td>
         <td>
             <form onSubmit={() => props.func(props.pidgeon._id)}>
-                <input type="submit" className="btn btn-primary" value="Übernehme ich!" onClick={() => props.func(props.pidgeon._id)} />
+                { props.pidgeon.responsible_person_registered !== '' ? 
+                    <input type="submit" className="btn btn-primary" value="Wird bereits übernommen" /> :
+                    <input type="submit" className="btn btn-primary" value="Übernehme ich!" onClick={() => props.func(props.pidgeon._id)} />
+                }
             </form>
         </td>
     </tr>
@@ -25,7 +28,7 @@ export default class PidgeonList extends Component {
 
     componentDidMount() {
         var token = this.getFromLocalStorage("token");
-        
+
         axios.get('http://localhost:4000/pidgeons?secret_token=' + token)
             .then(response => {
                 console.log(response.data)
@@ -46,12 +49,12 @@ export default class PidgeonList extends Component {
         });
     }
 
-    takeCareForPidgeon  = async (pid_id) =>  {
+    takeCareForPidgeon = async (pid_id) => {
         var token = this.getFromLocalStorage("token");
         const submittedCaretaker = {
-            responsible_person_registered:  this.getFromLocalStorage("email")
+            responsible_person_registered: this.getFromLocalStorage("email")
         }
-        axios.post('http://localhost:4000/pidgeons/takecare/' + pid_id +'?secret_token=' + token, submittedCaretaker)
+        axios.post('http://localhost:4000/pidgeons/takecare/' + pid_id + '?secret_token=' + token, submittedCaretaker)
             .then(response => {
                 console.log(response.data);
             })
