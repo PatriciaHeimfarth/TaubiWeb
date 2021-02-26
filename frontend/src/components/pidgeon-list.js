@@ -24,7 +24,7 @@ export default class PidgeonList extends Component {
     }
 
     componentDidMount() {
-        var token = this.getFromLocalStorage();
+        var token = this.getFromLocalStorage("token");
         
         axios.get('http://localhost:4000/pidgeons?secret_token=' + token)
             .then(response => {
@@ -46,9 +46,12 @@ export default class PidgeonList extends Component {
         });
     }
 
-    takeCareForPidgeon(pid_id) {
-        console.log(pid_id);
-        axios.post('http://localhost:4000/pidgeons/takecare/' + pid_id)
+    takeCareForPidgeon  = async (pid_id) =>  {
+        var token = this.getFromLocalStorage("token");
+        const submittedCaretaker = {
+            responsible_person_registered:  this.getFromLocalStorage("email")
+        }
+        axios.post('http://localhost:4000/pidgeons/takecare/' + pid_id +'?secret_token=' + token, submittedCaretaker)
             .then(response => {
                 console.log(response.data);
             })
@@ -85,8 +88,8 @@ export default class PidgeonList extends Component {
             return <Pidgeon pidgeon={currentPidgeon} key={i} func={takeCareForPidgeon} />;
         })
     }
-    getFromLocalStorage() {
-        var object = JSON.parse(window.localStorage.getItem("token"));
+    getFromLocalStorage(key) {
+        var object = JSON.parse(window.localStorage.getItem(key));
 
         if (object !== null) {
             var dateString = object.timestamp;
@@ -107,7 +110,7 @@ export default class PidgeonList extends Component {
     }
 
     render() {
-        var token = this.getFromLocalStorage();
+        var token = this.getFromLocalStorage("token");
         return (
             <div>
                 {token === ''
