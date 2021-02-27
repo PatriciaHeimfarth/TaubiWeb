@@ -94,7 +94,7 @@ export default class Login extends Component {
                         <div className="form-group">
                             <label>Passwort</label>
                             <input
-                                type="text"
+                                type="password"
                                 className="form-control"
                                 value={this.state.password}
                                 onChange={this.onChangePassword}
