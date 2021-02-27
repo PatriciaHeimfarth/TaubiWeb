@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import {getFromLocalStorage} from '../helpers.js';
 
 const Pidgeon = props => (
     <tr>
@@ -23,6 +24,7 @@ export default class PidgeonList extends Component {
         super(props);
         this.state = { pidgeons: [] };
         { this.getLocation() }
+        this.getFromLocalStorage = getFromLocalStorage.bind(this)
 
     }
 
@@ -91,26 +93,7 @@ export default class PidgeonList extends Component {
             return <Pidgeon pidgeon={currentPidgeon} key={i} func={takeCareForPidgeon} />;
         })
     }
-    getFromLocalStorage(key) {
-        var object = JSON.parse(window.localStorage.getItem(key));
-
-        if (object !== null) {
-            var dateString = object.timestamp;
-            var now = new Date().getTime();
-
-            if (dateString > now) {
-                var token = object.value;
-            }
-            else {
-                var token = '';
-            }
-
-            return token;
-        }
-        else {
-            return '';
-        }
-    }
+   
 
     render() {
         var token = this.getFromLocalStorage("token");

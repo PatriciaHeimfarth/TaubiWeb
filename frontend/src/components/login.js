@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import {getFromLocalStorage} from '../helpers.js';
+
+
 export default class Login extends Component {
 
     constructor(props) {
@@ -13,6 +16,8 @@ export default class Login extends Component {
             password: '',
             email: ''
         }
+
+        this.getFromLocalStorage = getFromLocalStorage.bind(this)
     }
 
     onChangeEmail(e) {
@@ -53,30 +58,9 @@ export default class Login extends Component {
         localStorage.setItem(key, JSON.stringify(object));
     }
 
-    getFromLocalStorage() {
-        var object = JSON.parse(window.localStorage.getItem("token"));
-
-        if (object !== null) {
-            var dateString = object.timestamp;
-            var now = new Date().getTime();
-
-            if (dateString > now) {
-                var token = object.value;
-            }
-            else {
-                var token = '';
-            }
-            return token;
-        }
-        else {
-            return '';
-        }
-
-
-    }
-
+   
     render() {
-        var token = this.getFromLocalStorage();
+        var token = this.getFromLocalStorage("token");
         return (
             <div>
                 {token !== ''
