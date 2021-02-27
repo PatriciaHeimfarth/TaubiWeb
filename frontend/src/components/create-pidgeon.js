@@ -21,7 +21,6 @@ export default class CreatePidgeon extends Component {
             town: '',
             latitude: '',
             longitude: '',
-            responsiblePersonRegistered: false,
             email: ''
 
         }
@@ -111,7 +110,7 @@ export default class CreatePidgeon extends Component {
             town: this.state.town,
             latitude: this.state.latitude,
             longitude: this.state.longitude,
-            responsiblePersonRegistered: this.state.responsiblePersonRegistered,
+            responsible_person_registered: '',
             email: this.state.email
         };
         var token = this.getFromLocalStorage("token");
@@ -123,7 +122,6 @@ export default class CreatePidgeon extends Component {
             town: '',
             latitude: '',
             longitude: '',
-            responsiblePersonRegistered: false,
             email: ''
         })
     }
