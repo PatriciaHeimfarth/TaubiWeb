@@ -7,6 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import CreatePidgeon from "./components/create-pidgeon";
 import PidgeonList from "./components/pidgeon-list";
 import Login from "./components/login";
+import MyPidgeons from "./components/my-pidgeons";
 
 class App extends Component {
   render() {
@@ -24,6 +25,9 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/create" className="nav-link">Taube hinzufügen</Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/my-pidgeons" className="nav-link">Meine Tauben</Link>
+                </li>
               </ul>
             </div>
           </nav>
@@ -32,7 +36,8 @@ class App extends Component {
           <Switch>
             <Route path="/list" component={PidgeonList} />
             <Route path="/create" component={CreatePidgeon} />
-            <Route path="/" component={Login} />
+            <Route path="/my-pidgeons" component={MyPidgeons} />
+            <Route path="/" component={Login} />           
           </Switch>
         </div>
       </Router>
