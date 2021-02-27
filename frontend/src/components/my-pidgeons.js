@@ -20,11 +20,16 @@ class MyPidgeons extends Component {
     }
     componentDidMount() {
         var token = this.getFromLocalStorage("token");
-
+        var email = this.getFromLocalStorage("email");
         axios.get('http://localhost:4000/pidgeons?secret_token=' + token)
             .then(response => {
                 console.log(response.data)
-                this.setState({ pidgeons: response.data });
+
+                var onlyPidgeonsWhichBelongToUser = response.data.filter(
+                    p => p.responsible_person_registered === email
+                )
+
+                this.setState({ pidgeons: onlyPidgeonsWhichBelongToUser });
 
             })
             .catch(function (error) {
