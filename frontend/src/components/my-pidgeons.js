@@ -11,6 +11,11 @@ const Pidgeon = props => (
                     <input type="submit" className="btn btn-primary" value="Verantwortung abgeben" onClick={() => props.func(props.pidgeon._id)} />
             </form>
         </td>
+        <td>
+            <form onSubmit={() => props.rescuedFunc(props.pidgeon._id)}>
+                    <input type="submit" className="btn btn-primary" value="Verantwortung abgeben" onClick={() => props.rescuedFunc(props.pidgeon._id)} />
+            </form>
+        </td>
     </tr>)
 
 class MyPidgeons extends Component {
@@ -55,6 +60,21 @@ class MyPidgeons extends Component {
             })
     }
 
+    
+    pidgeonRescued = async (pid_id) => {
+        var token = this.getFromLocalStorage("token");
+        const submittedCaretaker = {
+            responsible_person_registered: ''
+        }
+        axios.post('http://localhost:4000/pidgeons/delete/' + pid_id + '?secret_token=' + token, submittedCaretaker)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
+
 
     pidgeonList = (givePidgeonBack) => {
         return this.state.pidgeons.map(function (currentPidgeon, i) {
@@ -75,7 +95,8 @@ class MyPidgeons extends Component {
                             <thead>
                                 <tr>
                                     <th>Beschreibung</th>
-
+                                    <th>Taube zurück in die Übersicht</th>
+                                    <th>Taube gerettet?</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -86,6 +86,23 @@ pidgeonRoutes.route('/takecare/:id').post(function (req, res) {
     });
 });
 
+pidgeonRoutes.route('/delete/:id').post(function (req, res) {
+    Pidgeon.findById(req.params.id, function (err, pidgeon) {
+       if (!pidgeon) {
+           res.status(404).send("data is not found");
+       }
+       console.log(req)
+       pidgeon.remove( ).then(pidgeon => {
+           res.json('Pidgeon deleted!');
+       })
+           .catch(err => {
+               console.log(err)
+               res.status(400).send("Delete not possible");
+           });
+   });
+});
+
+
 pidgeonRoutes.route('/verify/:token').get(function (req, res) {
     var token = req.params.token;
     var data = jwt.decode(token, process.env.SECRET);
