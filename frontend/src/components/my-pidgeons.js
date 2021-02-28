@@ -13,7 +13,7 @@ const Pidgeon = props => (
         </td>
         <td>
             <form onSubmit={() => props.rescuedFunc(props.pidgeon._id)}>
-                    <input type="submit" className="btn btn-primary" value="Verantwortung abgeben" onClick={() => props.rescuedFunc(props.pidgeon._id)} />
+                    <input type="submit" className="btn btn-primary" value="Taube erfolgreich gerettet" onClick={() => props.rescuedFunc(props.pidgeon._id)} />
             </form>
         </td>
     </tr>)
@@ -76,9 +76,9 @@ class MyPidgeons extends Component {
     }
 
 
-    pidgeonList = (givePidgeonBack) => {
+    pidgeonList = (givePidgeonBack, pidgeonRescued) => {
         return this.state.pidgeons.map(function (currentPidgeon, i) {
-            return <Pidgeon pidgeon={currentPidgeon} key={i} func={givePidgeonBack} />;
+            return <Pidgeon pidgeon={currentPidgeon} key={i} func={givePidgeonBack} rescuedFunc={pidgeonRescued}/>;
         })
     }
     
@@ -100,7 +100,7 @@ class MyPidgeons extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.pidgeonList(this.givePidgeonBack)}
+                                {this.pidgeonList(this.givePidgeonBack, this.pidgeonRescued)}
                             </tbody>
                         </table>
                     </div>
