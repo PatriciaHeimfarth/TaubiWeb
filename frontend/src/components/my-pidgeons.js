@@ -6,7 +6,11 @@ import {getFromLocalStorage} from '../helpers.js';
 const Pidgeon = props => (
     <tr>
         <td>{props.pidgeon.description}</td>
-
+        <td>
+            <form onSubmit={() => props.func(props.pidgeon._id)}>
+                    <input type="submit" className="btn btn-primary" value="Verantwortung abgeben" onClick={() => props.func(props.pidgeon._id)} />
+            </form>
+        </td>
     </tr>)
 
 class MyPidgeons extends Component {
@@ -37,10 +41,24 @@ class MyPidgeons extends Component {
             })
     }
 
+    givePidgeonBack = async (pid_id) => {
+        var token = this.getFromLocalStorage("token");
+        const submittedCaretaker = {
+            responsible_person_registered: ''
+        }
+        axios.post('http://localhost:4000/pidgeons/takecare/' + pid_id + '?secret_token=' + token, submittedCaretaker)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
 
-    pidgeonList = () => {
+
+    pidgeonList = (givePidgeonBack) => {
         return this.state.pidgeons.map(function (currentPidgeon, i) {
-            return <Pidgeon pidgeon={currentPidgeon} key={i} />;
+            return <Pidgeon pidgeon={currentPidgeon} key={i} func={givePidgeonBack} />;
         })
     }
     
@@ -61,7 +79,7 @@ class MyPidgeons extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.pidgeonList()}
+                                {this.pidgeonList(this.givePidgeonBack)}
                             </tbody>
                         </table>
                     </div>
