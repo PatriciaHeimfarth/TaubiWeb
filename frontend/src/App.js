@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-
+import { Navbar, Nav, NavDropdown } from "react-bootstrap"
 import "bootstrap/dist/css/bootstrap.min.css";
 
 
@@ -14,30 +14,23 @@ class App extends Component {
     return (
       <Router>
         <div className="container">
-          <nav className="navbar navbar-expand-lg navbar-light bg-light">
-
-            <Link to="/" className="navbar-brand">TaubiWeb</Link>
-            <div className="collapse navbar-collapse">
-              <ul className="navbar-nav mr-auto">
-                <li className="navbar-item">
-                  <Link to="/list" className="nav-link">Tauben</Link>
-                </li>
-                <li className="navbar-item">
-                  <Link to="/create" className="nav-link">Taube hinzufügen</Link>
-                </li>
-                <li className="navbar-item">
-                  <Link to="/my-pidgeons" className="nav-link">Meine Tauben</Link>
-                </li>
-              </ul>
-            </div>
-          </nav>
+          <Navbar bg="light" expand="lg">
+            <Navbar.Brand href="#home">Taubi</Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="mr-auto">
+                <Nav.Link href="/">Tauben</Nav.Link>
+                <Nav.Link href="/create">Taube hinzufügen</Nav.Link>
+                <Nav.Link href="/list">Meine Tauben</Nav.Link>                 
+              </Nav> 
+            </Navbar.Collapse>
+          </Navbar>
           <br />
-
           <Switch>
             <Route path="/list" component={PidgeonList} />
             <Route path="/create" component={CreatePidgeon} />
             <Route path="/my-pidgeons" component={MyPidgeons} />
-            <Route path="/" component={Login} />           
+            <Route path="/" component={Login} />
           </Switch>
         </div>
       </Router>
